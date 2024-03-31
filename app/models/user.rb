@@ -38,8 +38,23 @@ class User < ApplicationRecord
   end
 
 
+  def self.looks(search, word,user_id)
+      if search == "perfect_match"
+        @user = User.where("name LIKE?", "#{word}")
+      elsif search == "forward_match"
+        @user = User.where("name LIKE?","#{word}%")
+      elsif search == "backward_match"
+        @user = User.where("name LIKE?","%#{word}")
+      elsif search == "partial_match"
+        @user = User.where("name LIKE?","%#{word}%")
+      else
+        @user = User.all
+      end
+  end
 
-
+# "name(カラム名) LIKE?"の部分では検索に使う語句が可変である時の書き方である
+# ?の部分が、第二引数#{word}）と置き換えられる。
+# "#{word}"の部分で%をどこに記述するかで検索手法を指定している。
 
   def get_profile_image
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
