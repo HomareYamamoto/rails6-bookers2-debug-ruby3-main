@@ -1,0 +1,5 @@
+$('#comment_counter').html("<%= j(render 'book_comments/comment-count', book: @book) %>");
+$('#comment_index').html("<%= j(render 'book_comments/comment-index', book: @book) %>");
+<!--jsファイルはビューファイルと言うよりかは処理を行うファイルと言うイメージ。-->
+<!--showファイルと連携させているためbooksコントローラを意識しがちだが-->
+<!--ここで変数を扱う場合にはbook_commentsコントローラで定義されていなければならない-->

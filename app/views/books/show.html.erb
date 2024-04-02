@@ -22,7 +22,7 @@
           <td id="favorite_btn_<%= @book.id %>"><%= render 'favorites/favorite-btn', book: @book %></td>
 
           <td id="comment_counter">
-            <%= render "book_comments/comment-count", book: @book %>
+            <%= render 'book_comments/comment-count', book: @book %>
           </td>
 
 
@@ -33,11 +33,11 @@
         </tr>
       </table>
       <div id="comment_index">
-        <%= render "book_comments/comment-index", book: @book %>
+        <%= render 'book_comments/comment-index', book: @book %>
       </div>
 
       <div>
-        <%= render "book_comments/comment-form", book: @book, book_comment: @book_comment %>
+        <%= render 'book_comments/comment-form', book: @book, book_comment: @book_comment %>
       </div>
     </div>
   </div>
