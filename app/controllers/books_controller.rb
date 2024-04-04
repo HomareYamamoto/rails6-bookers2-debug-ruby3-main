@@ -11,20 +11,26 @@ class BooksController < ApplicationController
     # @books = Book.all 以前まで記述していたコード
     @book = Book.new
     @user=current_user
-    to = Time.current.at_end_of_day # config/application.rbに設定してあるタイムゾーンを元に現在日時を取得しています。at_end_of_day は1日の終わりを23:59に設定しています。
-    from = (to - 6.day).at_beginning_of_day # at_beginning_of_day　は1日の始まりの時刻を0:00に設定しています。
-    @books = Book.all.sort {|a,b|
-      a.favorites.where(created_at: from...to).size <=>
-      b.favorites.where(created_at: from...to).size
-    }.reverse
+    to = Time.current.at_end_of_day
+    from = (to - 6.day).at_beginning_of_day
+    @books = Book.includes(:favorites).sort_by {|x| x.favorites.where(created_at: from...to).size}.reverse
+    # @books = Book.all.sort {|a,b|
+    #   a.favorites.where(created_at: from...to).size <=>
+    #   b.favorites.where(created_at: from...to).size
+    # }.reverse
 
-    #sort_byを使ったやり方のほうが記述がシンプルで分かりやすいがなぜか機能しない。
+    # to = Time.current.at_end_of_day
+    # from = (to - 6.day).at_beginning_of_day
     # @books = Book.includes(:favorited_users).
-    # # ここまでを要約すると一週間分のデータとってきたよーって感じ
     #   sort_by {|x|
+    #   p 1111
+    #   p  a=x.favorited_users.includes(:favorites)
+    #   p  b=to
+    #   p  c=from
+    #   p 2222
+    #   # .includes(:favorites).where(created_at: from...to).size
     #     x.favorited_users.includes(:favorites).where(created_at: from...to).size
     #   }.reverse
-
   end
 
   def create
