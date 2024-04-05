@@ -1,2 +1,19 @@
-<h1>Chats#show</h1>
-<p>Find me in app/views/chats/show.html.erb</p>
+<h1><%= @user.name %>さんとのチャット</h1>
+<div class="container">
+  <div class ="row">
+    <div class="col-8">
+      <div class="d-flex justify-content-between">
+        <h5 class="text-left">ユーザー名:  <%= @user.name %></h5>
+        <h5 class="text-right">ユーザー名:  <%= current_user.name %></h5>
+      </div>
+      <div id="js-index">
+        <%= render "chats/index", chats: @chats %>
+      </div>
+      <div id ="js-form">
+        <%= render "chats/form", chat: @chat %>
+      </div>
+
+
+    </div>
+  </div>
+</div>

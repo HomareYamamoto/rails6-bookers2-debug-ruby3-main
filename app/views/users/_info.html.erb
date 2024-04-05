@@ -26,8 +26,11 @@
       <i class="fas fa-user-cog"></i>
     <% end %>
   <% elsif current_user.following?(user) %>
-    <%= link_to  "フォロー外す", user_relationship_path(user.id), method: :delete %>
+    <%= link_to  "フォロー外す", user_relationship_path(user.id), class: "btn btn-secondary", method: :delete %>
   <% else %>
     <%= link_to "フォローする", user_relationship_path(user.id), class: 'btn btn-success', method: :post %>
+  <% end %>
+  <% if current_user != user && current_user.following?(user) && user.following?(current_user) %>
+      <%= link_to 'DM', chat_path(user.id), class: "btn btn-primary" %>
   <% end %>
 </div>

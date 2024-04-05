@@ -1,0 +1,3 @@
+$(".js-index").html("<%= j(render 'chats/index', chats: @chats) %>");
+$(".js-form").html("<%= j(render 'chats/form', chat: @chat) %>");
+$(".message").val('');
