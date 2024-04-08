@@ -5,6 +5,11 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book_comment = BookComment.new
     @user=@book.user
+    #閲覧カウントは一人のユーザーが1つの本の投稿に関して1日に1回のみ
+    @book_detail = Book.find(params[:id])
+    unless ReadCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+      current_user.read_counts.create(book_id: @book_detail.id)
+    end
   end
 
   def index
@@ -14,23 +19,6 @@ class BooksController < ApplicationController
     to = Time.current.at_end_of_day
     from = (to - 6.day).at_beginning_of_day
     @books = Book.includes(:favorites).sort_by {|x| x.favorites.where(created_at: from...to).size}.reverse
-    # @books = Book.all.sort {|a,b|
-    #   a.favorites.where(created_at: from...to).size <=>
-    #   b.favorites.where(created_at: from...to).size
-    # }.reverse
-
-    # to = Time.current.at_end_of_day
-    # from = (to - 6.day).at_beginning_of_day
-    # @books = Book.includes(:favorited_users).
-    #   sort_by {|x|
-    #   p 1111
-    #   p  a=x.favorited_users.includes(:favorites)
-    #   p  b=to
-    #   p  c=from
-    #   p 2222
-    #   # .includes(:favorites).where(created_at: from...to).size
-    #     x.favorited_users.includes(:favorites).where(created_at: from...to).size
-    #   }.reverse
   end
 
   def create
